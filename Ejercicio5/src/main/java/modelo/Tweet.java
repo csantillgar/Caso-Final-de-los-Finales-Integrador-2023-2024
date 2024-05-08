@@ -1,23 +1,23 @@
 package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Tweet {
-    private LocalDate fechaPublicacion;
+    private LocalDateTime fechaPublicacion;
     private String mensaje;
     private CuentaUsuario remitente;
 
-    public Tweet(LocalDate fechaPublicacion, String mensaje, CuentaUsuario remitente) {
-        this.fechaPublicacion = fechaPublicacion;
+    public Tweet(String mensaje, LocalDateTime fechaPublicacion, CuentaUsuario remitente) {
         this.mensaje = mensaje;
+        this.fechaPublicacion = fechaPublicacion;
         this.remitente = remitente;
     }
 
-    public LocalDate getFechaPublicacion() {
+    public LocalDateTime getFechaPublicacion() {
         return fechaPublicacion;
     }
 
-    public void setFechaPublicacion(LocalDate fechaPublicacion) {
+    public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
 
@@ -29,11 +29,22 @@ public class Tweet {
         this.mensaje = mensaje;
     }
 
+
+
     public CuentaUsuario getRemitente() {
         return remitente;
     }
 
     public void setRemitente(CuentaUsuario remitente) {
         this.remitente = remitente;
+    }
+
+    @Override
+    public String toString() {
+        return "Tweet{" +
+                "mensaje='" + mensaje + '\'' +
+                ", fechaPublicacion=" + fechaPublicacion +
+                ", remitente=" + remitente.getAlias() +
+                '}';
     }
 }
