@@ -5,6 +5,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
+import modelo.CuentaUsuario;
+import modelo.Tweet;
+import modelo.Twitter;
+
 
 
 import modelo.CuentaUsuario;
@@ -21,26 +25,50 @@ class TwitterAppGUI extends JFrame {
     private DefaultListModel<CuentaUsuario> usuarioListModel;
     private JList<CuentaUsuario> usuarioList;
 
+    private JTextArea timelineArea;
+    private Twitter twitter;
+
     public TwitterAppGUI() {
-        setTitle("Twitter App");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
-        setLocationRelativeTo(null);
+        super("Twitter App");
+        twitter = new Twitter();
 
-        usuarios = new ArrayList<>(); // Inicializamos la lista de usuarios
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 2, 10, 10));
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 10, 10, 10);
 
         JLabel aliasLabel = new JLabel("Alias:");
-        aliasField = new JTextField();
-        panel.add(aliasLabel);
-        panel.add(aliasField);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        panel.add(aliasLabel, constraints);
+
+        aliasField = new JTextField(20);
+        constraints.gridx = 1;
+        panel.add(aliasField, constraints);
 
         JLabel mensajeLabel = new JLabel("Mensaje:");
-        mensajeField = new JTextField();
-        panel.add(mensajeLabel);
-        panel.add(mensajeField);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        panel.add(mensajeLabel, constraints);
+
+        mensajeField = new JTextField(20);
+        constraints.gridx = 1;
+        panel.add(mensajeField, constraints);
+
+        JButton publicarButton = new JButton("Publicar");
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        panel.add(publicarButton, constraints);
+
+        timelineArea = new JTextArea(10, 40);
+        timelineArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(timelineArea);
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 2;
+        panel.add(scrollPane, constraints);
 
         JButton publicarButton = new JButton("Publicar Tweet");
         publicarButton.addActionListener(new ActionListener() {
@@ -49,38 +77,23 @@ class TwitterAppGUI extends JFrame {
                 publicarTweet();
             }
         });
-        panel.add(publicarButton);
-
-        JLabel seguirLabel = new JLabel("Seguir a:");
-        aliasSeguirField = new JTextField();
-        panel.add(seguirLabel);
-        panel.add(aliasSeguirField);
-
-        JButton seguirButton = new JButton("Seguir Usuario");
-        seguirButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                seguirUsuario();
-            }
-        });
-        panel.add(seguirButton);
-
-        usuarioListModel = new DefaultListModel<>();
-        usuarioList = new JList<>(usuarioListModel);
-        JScrollPane scrollPane = new JScrollPane(usuarioList);
         panel.add(scrollPane);
 
         add(panel);
+        pack();
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void publicarTweet() {
         String alias = aliasField.getText();
         String mensaje = mensajeField.getText();
-        CuentaUsuario usuario = buscarUsuarioPorAlias(alias);
+        CuentaUsuario usuario = twitter.buscarUsuarioPorAlias(alias);
         if (usuario != null) {
             LocalDateTime fechaHora = LocalDateTime.now(); // Obtenemos la fecha y hora actual
             Tweet tweet = new Tweet(mensaje, fechaHora, usuario); // Creamos el Tweet con la fecha y hora actuales
             usuario.agregarTweet(tweet);
+            mostrarTimeline();
             JOptionPane.showMessageDialog(this, "Tweet publicado correctamente.");
         } else {
             JOptionPane.showMessageDialog(this, "No se encontró ningún usuario con ese alias.");
@@ -116,14 +129,21 @@ class TwitterAppGUI extends JFrame {
         return null;
     }
 
+    private void mostrarTimeline() {
+        StringBuilder timeline = new StringBuilder();
+        for (Tweet tweet : twitter.obtenerTimeline()) {
+            timeline.append(tweet).append("\n");
+        }
+        timelineArea.setText(timeline.toString());
+    }
+
 
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                TwitterAppGUI app = new TwitterAppGUI();
-                app.setVisible(true);
+                new TwitterAppGUI().setVisible(true);
             }
         });
     }
