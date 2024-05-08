@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 
 public class Twitter {
@@ -27,10 +28,12 @@ public class Twitter {
 
     public void publicarTweet(CuentaUsuario usuario, String mensaje) {
         if (usuario != null && mensaje != null && !mensaje.isEmpty()) {
-            Tweet tweet = new Tweet(mensaje, usuario);
+            LocalDateTime fechaHora = LocalDateTime.now();
+            Tweet tweet = new Tweet(mensaje, fechaHora, usuario);
             usuario.agregarTweet(tweet);
         }
     }
+
 
     public List<Tweet> obtenerTimeline(CuentaUsuario usuario) {
         List<Tweet> timeline = new ArrayList<>();

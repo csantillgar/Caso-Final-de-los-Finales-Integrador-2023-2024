@@ -87,8 +87,9 @@ public class TwitterAppGUI extends JFrame {
         String mensaje = mensajeField.getText();
         CuentaUsuario usuario = twitter.buscarUsuarioPorAlias(alias);
         if (usuario != null) {
-            LocalDateTime fechaHora = LocalDateTime.now(); // Obtenemos la fecha y hora actual
-            Tweet tweet = new Tweet(mensaje, usuario); // Creamos el Tweet con la fecha y hora actuales
+            LocalDateTime fechaHora = LocalDateTime.now();
+            Tweet tweet = new Tweet(mensaje, fechaHora, usuario);
+
             twitter.publicarTweet(usuario, mensaje); // Publicamos el tweet
             usuario.agregarTweet(tweet);
             mostrarTimeline();
