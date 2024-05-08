@@ -1,12 +1,12 @@
 package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Retweet extends Tweet {
     private Tweet tweetOriginal;
 
-    public Retweet(LocalDate fechaPublicacion, String mensaje, CuentaUsuario remitente, Tweet tweetOriginal) {
-        super(fechaPublicacion, mensaje, remitente);
+    public Retweet(LocalDateTime fechaPublicacion, String mensaje, CuentaUsuario remitente, Tweet tweetOriginal) {
+        super(mensaje, fechaPublicacion, remitente);
         this.tweetOriginal = tweetOriginal;
     }
 
@@ -16,5 +16,14 @@ public class Retweet extends Tweet {
 
     public void setTweetOriginal(Tweet tweetOriginal) {
         this.tweetOriginal = tweetOriginal;
+    }
+    @Override
+    public String toString() {
+        return "Retweet{" +
+                "mensaje='" + this.getMensaje() + '\'' +
+                ", fechaPublicacion=" + this.getFechaPublicacion() +
+                ", remitente=" + this.getRemitente().getAlias() +
+                ", tweetOriginal=" + tweetOriginal.getMensaje() +
+                '}';
     }
 }
