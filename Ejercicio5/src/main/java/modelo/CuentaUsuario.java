@@ -7,6 +7,7 @@ public class CuentaUsuario {
     private String alias;
     private String email;
     private List<CuentaUsuario> seguidores;
+    private List<CuentaUsuario> siguiendo;
     private List<Tweet> tweets;
 
     // Constructor
@@ -14,6 +15,7 @@ public class CuentaUsuario {
         this.alias = alias;
         this.email = email;
         this.seguidores = new ArrayList<>();
+        this.siguiendo = new ArrayList<>();
         this.tweets = new ArrayList<>();
     }
 
@@ -37,11 +39,37 @@ public class CuentaUsuario {
 
     // Métodos para gestionar seguidores
 
+    public List<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
+    }
+
+    public List<CuentaUsuario> getSeguidores() {
+        return seguidores;
+    }
+
+    public void setSeguidores(List<CuentaUsuario> seguidores) {
+        this.seguidores = seguidores;
+    }
+
+    public List<CuentaUsuario> getSiguiendo() {
+        return siguiendo;
+    }
+
+    public void setSiguiendo(List<CuentaUsuario> siguiendo) {
+        this.siguiendo = siguiendo;
+    }
+
     public void seguir(CuentaUsuario usuario) {
-        if (!seguidores.contains(usuario)) {
-            seguidores.add(usuario);
+        if (!this.siguiendo.contains(usuario)) {
+            this.siguiendo.add(usuario);
+            usuario.agregarSeguidor(this);
         }
     }
+
 
     public void dejarDeSeguir(CuentaUsuario usuario) {
         seguidores.remove(usuario);
@@ -49,25 +77,31 @@ public class CuentaUsuario {
 
     // Métodos para publicar tweets
 
-    public void publicarTweet(Tweet tweet) {
-        tweets.add(tweet);
-        notificarSeguidores(tweet);
+    public void agregarTweet(Tweet tweet) {
+        this.tweets.add(tweet);
+        this.notificarSeguidores(tweet);
     }
 
     private void notificarSeguidores(Tweet tweet) {
-        for (CuentaUsuario seguidor : seguidores) {
+        for (CuentaUsuario seguidor : this.seguidores) {
             seguidor.recibirTweet(tweet);
         }
     }
 
     private void recibirTweet(Tweet tweet) {
+        this.tweets.add(tweet);
+    }
 
+    private void agregarSeguidor(CuentaUsuario seguidor) {
+        this.seguidores.add(seguidor);
+    }
 
-
-
-        //falta implementar logica
-
-
-
+    @Override
+    public String toString() {
+        return "CuentaUsuario{" +
+                "alias='" + alias + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
+
