@@ -167,3 +167,7 @@ log n.
 ### Ejercicio 5 (2.5 + 1.5 + 1 puntos) Tiempo estimado: 60 + 30 minutos extra
 El ejercicio 5 podrás encontrarlo en este repositorio más arriba ya que es un ejercicio de código resuelto con intellIJ.
 
+Utiliza los alias user1 y user2.
+
+
+
