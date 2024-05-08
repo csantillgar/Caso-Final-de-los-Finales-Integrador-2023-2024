@@ -96,3 +96,44 @@ Dado A= 1024n y B= 16n^3
 
 Para determinar el punto en el que A es más eficiente que B, igualamos ambas funciones y resolvemos para n:
 Esto nos dará como resultado 8=n , lo que significa que A será más eficiente que B a partir de n=8
+
+Ejercicio 3 (0.75 + 0.75 puntos) Tiempo estimado: 15 minutos. Dado el siguiente algoritmo recursivo:
+
+
+![alt text](image.png)
+
+Preguntas:
+a) ¿Qué imprime el código? En caso de que no compile indique el motivo y arregle el programa
+como considere conveniente. Explique su solución de manera concisa.
+b) Explica brevemente qué cálculo está haciendo y qué tipo de recursividad está empleando.
+Respuestas:
+
+a) El código no compila debido a un error de sintaxis. La definición del método recursive está dentro del método main, lo cual no es permitido en Java. Para corregirlo, debemos mover la definición del método recursive fuera del método main. Aquí está la solución corregida:
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        int a = recursive(1, -2);
+        System.out.println(a);
+    }
+
+    public static int recursive(int a, int b) {
+        if (b == 0) {
+            return 1;
+        } else if (a == 0) {
+            return 0;
+        } else {
+            return a * recursive(a, b - 1);
+        }
+    }
+}
+
+b) El código implementa un algoritmo recursivo para calcular la potencia de un número a elevado a la potencia b. El método recursive toma dos parámetros a y b, y devuelve el resultado de a elevado a b. Utiliza una forma de recursividad conocida como recursividad descendente, donde la llamada recursiva reduce el problema hacia un caso base (en este caso, cuando b llega a 0). Cada llamada recursiva multiplica a por el resultado de la llamada recursiva con b reducido en 1.
+
+### Ejercicio 4 (1,5 punto) Tiempo estimado: 15 minutos.
+Calcular de forma recursiva la suma de los dígitos de un número siendo un ejemplo el número 102 ->
+1 + 0 + 2 = 3. Recuerde que puede realizar los cambios de tipo que crea necesarios para facilitar la
+resolución:
+¿ Qué t ipo de recursividad se está empleando? ¿ Qué comple jidad computacional
+tiene el algoritmo?
