@@ -1,6 +1,6 @@
 package modelo;
-
 import java.time.LocalDateTime;
+
 
 public class Tweet {
     private LocalDateTime fechaPublicacion;
@@ -11,6 +11,7 @@ public class Tweet {
         this.mensaje = mensaje;
         this.fechaPublicacion = fechaPublicacion;
         this.remitente = remitente;
+
     }
 
     public LocalDateTime getFechaPublicacion() {

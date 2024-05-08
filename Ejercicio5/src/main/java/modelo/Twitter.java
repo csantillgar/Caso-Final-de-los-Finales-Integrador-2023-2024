@@ -3,6 +3,7 @@ package modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Twitter {
 
     private List<CuentaUsuario> usuarios;
@@ -24,5 +25,22 @@ public class Twitter {
         return null;
     }
 
-    // Otros métodos de Twitter: publicarTweet, obtenerTimeline, etc.
+    public void publicarTweet(CuentaUsuario usuario, String mensaje) {
+        if (usuario != null && mensaje != null && !mensaje.isEmpty()) {
+            Tweet tweet = new Tweet(mensaje, usuario);
+            usuario.agregarTweet(tweet);
+        }
+    }
+
+    public List<Tweet> obtenerTimeline(CuentaUsuario usuario) {
+        List<Tweet> timeline = new ArrayList<>();
+        if (usuario != null) {
+            for (CuentaUsuario seguidor : usuario.getSeguidores()) {
+                timeline.addAll(seguidor.getTweets());
+            }
+        }
+        return timeline;
+    }
+
+
 }

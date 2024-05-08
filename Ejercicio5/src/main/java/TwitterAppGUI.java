@@ -11,11 +11,8 @@ import modelo.Twitter;
 
 
 
-import modelo.CuentaUsuario;
-import modelo.Tweet;
 
-
-class TwitterAppGUI extends JFrame {
+public class TwitterAppGUI extends JFrame {
 
     private List<CuentaUsuario> usuarios;
 
@@ -70,7 +67,7 @@ class TwitterAppGUI extends JFrame {
         constraints.gridwidth = 2;
         panel.add(scrollPane, constraints);
 
-        JButton publicarButton = new JButton("Publicar Tweet");
+
         publicarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,7 +88,8 @@ class TwitterAppGUI extends JFrame {
         CuentaUsuario usuario = twitter.buscarUsuarioPorAlias(alias);
         if (usuario != null) {
             LocalDateTime fechaHora = LocalDateTime.now(); // Obtenemos la fecha y hora actual
-            Tweet tweet = new Tweet(mensaje, fechaHora, usuario); // Creamos el Tweet con la fecha y hora actuales
+            Tweet tweet = new Tweet(mensaje, usuario); // Creamos el Tweet con la fecha y hora actuales
+            twitter.publicarTweet(usuario, mensaje); // Publicamos el tweet
             usuario.agregarTweet(tweet);
             mostrarTimeline();
             JOptionPane.showMessageDialog(this, "Tweet publicado correctamente.");
@@ -130,12 +128,19 @@ class TwitterAppGUI extends JFrame {
     }
 
     private void mostrarTimeline() {
-        StringBuilder timeline = new StringBuilder();
-        for (Tweet tweet : twitter.obtenerTimeline()) {
-            timeline.append(tweet).append("\n");
+        String alias = aliasField.getText();
+        CuentaUsuario usuario = twitter.buscarUsuarioPorAlias(alias);
+        if (usuario != null) {
+            StringBuilder timeline = new StringBuilder();
+            for (Tweet tweet : twitter.obtenerTimeline(usuario)) {
+                timeline.append(tweet).append("\n");
+            }
+            timelineArea.setText(timeline.toString());
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún usuario con ese alias.");
         }
-        timelineArea.setText(timeline.toString());
     }
+
 
 
 
