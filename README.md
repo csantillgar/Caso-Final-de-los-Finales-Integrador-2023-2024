@@ -137,3 +137,33 @@ Calcular de forma recursiva la suma de los dígitos de un número siendo un ejem
 resolución:
 ¿ Qué t ipo de recursividad se está empleando? ¿ Qué comple jidad computacional
 tiene el algoritmo?
+
+Para calcular de forma recursiva la suma de los dígitos de un número, podemos seguir este enfoque:
+
+public class Main {
+    public static void main(String[] args) {
+        int numero = 102;
+        int suma = sumaDigitos(numero);
+        System.out.println("La suma de los dígitos de " + numero + " es: " + suma);
+    }
+
+    public static int sumaDigitos(int numero) {
+        if (numero == 0) {
+            return 0;
+        } else {
+            return numero % 10 + sumaDigitos(numero / 10);
+        }
+    }
+}
+
+
+Este programa calculará recursivamente la suma de los dígitos del número dado.
+
+Tipo de recursividad: Este algoritmo utiliza recursividad descendente, ya que reduce el problema original (la suma de los dígitos del número dado) a un caso base (cuando el número se convierte en 0).
+
+Complejidad computacional: La complejidad computacional de este algoritmo es O log(n), donde n es el valor del número dado. Esto se debe a que el algoritmo realiza divisiones sucesivas por 10 hasta que el número se convierte en 0, lo que implica que el número de llamadas recursivas es proporcional al número de dígitos en el número original, es decir, 
+log n.
+
+### Ejercicio 5 (2.5 + 1.5 + 1 puntos) Tiempo estimado: 60 + 30 minutos extra
+El ejercicio 5 podrás encontrarlo en este repositorio más arriba ya que es un ejercicio de código resuelto con intellIJ.
+
